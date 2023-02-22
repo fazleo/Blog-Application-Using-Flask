@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}My Posts{% endblock %}
+
+{% block nav_list %}
+<li class="nav-item">
+    <a class="nav-link" href="/blog"><span class="text-bg-dark">Back</span></a>
+</li>
+{% endblock %}
+
+
+{% block content %}
+
+
+    {% if posts %}
+    <h2 class="mt-5">My Posts</h2>
+    {% for post in posts %}
+        
+
+        <div class="card text-center mt-3">
+            <div class="card-header">
+                {% if post.img %}
+                    <img src="{{ url_for('static', filename='uploads/'+ post.img ) }}" alt="" width="300" height="400">
+                {% endif %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text">{{ post.caption }}</p>
+              
+              <a class="btn btn-primary" href="/blog/edit_post/{{ post.id }}">Edit Post</a>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Delete
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="/blog/delete_post/{{ post.id }}" class="btn btn-primary" method="POST" >Confirm Deletion</a></li>
+                </ul>
+                </div>
+              
+                  
+              
+
+            </div>
+
+             <div class="div mx-3">
+                <p class="card-text">
+                    <form action="/blog/create_comment/{{ post.id }}" method="POST" class="input-group mb-3">
+                        <input type="text" name="comment" id="comment" class="form-control" placeholder="Comment Here!">
+                        <button type="submit" class="btn btn-primary">Comment</button>
+                    </form>
+                  </p>
+             </div>
+            
+            
+            <div class="collapse mx-3" id = comments-{{ post.id }}>
+                <div class="card">
+                    <div class="card-body" id="comments-expanded-{{post.id}}">
+                        {% for comment in post.comments %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="/blog/user/{{ comment.user.id }}">
+                                        {{ comment.user.username }}
+                                    </a>: {{ comment.comment }}
+                                </div>
+                                <div>
+                                    <small class="text-muted">{{comment.timestamp}}</small>
+                                </div>
+                                {% if current_user.id == comment.author  %}
+                                    
+
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Delete
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                          <li><a href="/blog/delete_comment/{{ comment.id }}" class="btn btn-primary" method="POST" >Confirm Deletion</a></li>
+                                        </ul>
+                                      </div>
+                                {% endif %}
+                            </div>
+                            
+                        {% endfor %}
+                    </div>
+                </div>
+                    
+            </div>
+            <p class="card-text mx-4">
+                {% if post.comments|length >0 %}
+                <a data-bs-toggle="collapse"  href="#comments-{{ post.id }}" role="button">
+                    <small>View {{ post.comments|length }} Comments</small>
+                </a>
+    
+                {% else %}
+                    <small class="text-muted">No comments</small>
+                {% endif %}
+            </p>
+
+            <div class="card-footer text-muted mx-4">
+                <a href="/blog/like/{{ post.id }}">
+                    <span class="material-symbols-outlined">
+                    thumb_up
+                    </span>
+                </a>
+                {{ post.likes|length }}
+            </div>
+            <div class="card-footer text-muted mx-4">
+             {{ post.timestamp}}
+            </div>
+        </div>
+        
+
+        
+
+
+        <br/>
+    {% endfor %}
+    {% else %}
+        <h3 class="mt-5">No Posts</h3>
+    {% endif %}
+
+
+
+    
+{% endblock %}

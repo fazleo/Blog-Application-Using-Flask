@@ -1,0 +1,70 @@
+{%  extends 'base.html' %}
+
+{%  block title %}Seach User{% endblock %}
+
+
+{%  block nav_list %}
+<li class="nav-item">
+    <a class="nav-link" href="/blog"><span class="text-bg-dark">Back</span></a>
+</li>
+
+{% endblock %}
+
+
+
+
+{%  block content %}
+
+
+    
+    <form method="POST" class="d-flex" role="search">
+        <label for="search_user">Search User:</label>
+        <br>
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_user" id="search_user">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+
+    {% if userlist  %}
+        <div class="card" style="width: 80rem; padding: 2em; margin-top: 5em;">
+            
+            
+            <ul class="list-group list-group-flush">
+                <h1>User List</h1>
+                {% for user in userlist %}
+                
+                {% if user != current_user %}
+                
+                <li class="list-group-item d-flex justify-content-between">
+                    <div><a href="/blog/user/{{  user.id  }}">{{ user.username }}</a></div>
+                    {% if user in followings %}
+                        
+                        <form method="POST" action="/blog/unfollow/{{ user.id }}">
+                            <button  class="btn btn-outline-success" type="submit">Unfollow</button>
+                        </form>
+                    
+                    {% else %}
+                    <form method="POST" action="/blog/follow/{{ user.id }}">
+                        <button  class="btn btn-outline-success" type="submit">Follow</button>
+                    </form>
+
+                    {% endif %}
+                {% endif %}
+                </li>
+
+                {% endfor %}
+                
+                    
+            </ul>
+        
+        </div>
+
+
+    {% endif %}
+
+    
+
+
+
+
+{% endblock %}

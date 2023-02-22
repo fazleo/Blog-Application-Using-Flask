@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Edit Profile{% endblock %}
+
+
+
+{% block nav_list %}
+<li class="nav-item">
+    <a class="nav-link" href="/blog"><span class="text-bg-dark">Back</span></a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+
+    <h1>Edit Profile</h1>
+
+    <form method="POST" class="form-group"  enctype="multipart/form-data">
+        <label for="username">Enter new  usename to update: </label>
+        <input type="text" id="username" name="username" class="form-control" placeholder={{ current_user.username }}>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder={{ current_user.email }}>
+        <label for="password1">Password</label>
+        <input type="password" id="password1" name="password1" class="form-control" placeholder="Enter password to change">
+        <label for="password">Verify Password</label>
+        <input type="password" id="password2" name="password2" class="form-control" placeholder="Enter again">
+        <br/>
+        <label class="form-label" for="pic">Upload profile image</label>
+        <input type="file" class="form-control" id="imgfile" name="pic"/>
+        <div class="submit_button mt-3" align = "center">
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+{% endblock %}

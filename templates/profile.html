@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block title %}Profile{% endblock %}
+
+{% block nav_list %}
+<a class="navbar-brand" href="{{ url_for('profile') }}">
+    <img src="https://www.freeiconspng.com/thumbs/blogger-logo-icon-png/blogger-logo-icon-png-1.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+    <span class="text-bg-dark p-3">Blog</span>
+</a>
+
+<li class="nav-item">
+    <a class="nav-link" href="/blog/feeds"><span class="text-bg-dark">Feeds</span></a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/blog/create_post"><span class="text-bg-dark">New Post</span></a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('users') }}"><span class="text-bg-dark">Search</span></a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/blog/post"><span class="text-bg-dark">Posts</span></a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/blog/followers"><span class="text-bg-dark">Followers</span></a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/blog/following"><span class="text-bg-dark">Following</span></a>
+</li>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+    <figure class="text-center">
+        <blockquote class="blockquote fs-1">
+          Welcome to  Blog
+        </blockquote>
+        <figcaption class="blockquote-footer fs-2">
+            {{ user.username }}<cite title="Source Title">'s Profile</cite>
+        </figcaption>
+    </figure>
+
+    {% if user.profile_img %}
+    <div class="d-flex justify-content-center">
+      <img src="{{ url_for('static', filename='uploads/'+ user.profile_img ) }}" class="rounded mx-auto d-block" style="width: 300px; height: 300px;">
+    </div>
+    {% else %}
+    
+    {% endif %}
+
+    <div class="card mt-5" style="display: inline-flex;">
+        <div class="card-header fw-bold ">
+          Dashboard
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Username: {{ user.username }}</h5>
+          <p class="card-text">Email: {{ user.email}}</p>
+          
+          
+        </div>
+        
+          <div class="din mx-3">
+            <div class="mx-3 " style="display: flex;">
+          <div class="din mx-3">
+            <a class="btn btn-primary" href="/blog/user/edit_profile">Edit Profile</a>
+          </div>
+
+          <div class="din mx-3">
+            <a href="/logout" class="btn btn-primary">Logout</a>
+          </div>
+
+        <div class="">
+          <button type="button" class="btn btn-primary mx-3" style="width: 4cm;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Delete Profile
+          </button>
+  
+          <!-- Modal -->
+          <div class="modal fade"  id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm Deletion</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  By pressing Button your profile would be deleted, and changes would be applied and cannot be undone.
+                </div>
+                <div class="modal-footer">
+                  <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                  <a type="button" class="btn btn-primary" href="/blog/user/delete">Understood</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        
+        </div>
+
+      <div class="cards"  style="display: flex; justify-content:center;">
+        <div class="card text-bg-dark my-3 mx-3 ms-3 mt-5" style="width: 20rem; height: 8rem;">
+            <div class="card-header"></div>
+            <div class="card-body">
+              <h5 class="card-title text-center">Follower Count : {{ user.followers|length }}</h5>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        <br/>
+        <div class="card text-bg-dark my-3 mx-3 ms-3 mt-5" style="width: 20rem; height: 8rem; ">
+            <div class="card-header"></div>
+            <div class="card-body">
+              <h5 class="card-title text-center">Following Count : {{ user.following|length }}</h5>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        <div class="card text-bg-dark my-3 mx-3 ms-3 mt-5" style="width: 20rem; height: 8rem;">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h5 class="card-title text-center">Posts Count : {{ posts|length }}</h5>
+            <p class="card-text"></p>
+        </div>
+        </div>
+
+        
+
+      </div>
+    
+    
+    
+{% endblock %}
+
+

@@ -1,0 +1,152 @@
+{%  extends 'base.html' %}
+
+{%  block title %}{{ user.username }}'s Profile{% endblock %}
+
+
+{%  block nav_list %}
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for("profile") }}"><span class="text-bg-dark">Back</span></a>
+</li>
+
+{% endblock %}
+
+
+
+
+
+
+{%  block content %}
+
+<h1>Username: {{ user.username }}</h1>
+{% if user.profile_img %}
+    <div class="d-flex justify-content-center">
+      <img src="{{ url_for('static', filename='uploads/'+ user.profile_img ) }}" class="rounded mx-auto d-block" style="width: 300px; height: 300px;" alt="profile">
+
+    </div>
+{% else %}
+{% endif %}
+
+<div class="cards"  style="display: flex; justify-content:center;">
+    <div class="card text-bg-dark my-3 mx-3 ms-3 mt-5" style="width: 20rem; height: 8rem;">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <h5 class="card-title text-center">Follower Count : {{ user.followers|length }}</h5>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    <br/>
+    <div class="card text-bg-dark my-3 mx-3 ms-3 mt-5" style="width: 20rem; height: 8rem; ">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <h5 class="card-title text-center">Following Count : {{ user.following|length }}</h5>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    <div class="card text-bg-dark my-3 mx-3 ms-3 mt-5" style="width: 20rem; height: 8rem;">
+    <div class="card-header"></div>
+    <div class="card-body">
+        <h5 class="card-title text-center">Posts Count : {{ posts|length }}</h5>
+        <p class="card-text"></p>
+    </div>
+    </div>
+
+  </div>
+
+
+
+<div class="card mt-5">
+
+
+{% if posts %}
+
+
+    
+<h2 class="mt-5">Posts:</h2>
+
+{% for post in posts %}
+    
+    <div class="card text-center mt-3">
+        <div class="card-header">
+            {% if post.img %}
+                <img src="{{ url_for('static', filename='uploads/'+ post.img ) }}" alt="" width="300" height="400">
+            {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.caption }}</p>
+          <p class="card-text">Author: {{ user.username }}</p>
+          <p class="card-text">Created on : {{ post.timestamp }}</p>
+          <p class="card-text">
+            <form action="/blog/create_comment/{{ post.id }}" method="POST" class="input-group mb-3">
+                <input type="text" name="comment" id="comment" class="form-control" placeholder="Comment Here!">
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+          </p>
+           
+        </div>
+        <div class="collapse" id = comments-{{ post.id }}>
+            <div class="card">
+                <div class="card-body" id="comments-expanded-{{post.id}}">
+                    {% for comment in post.comments %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/blog/user/{{ comment.user.id }}">
+                                    {{ comment.user.username }}
+                                </a>: {{ comment.comment }}
+                            </div>
+                            <div>
+                                <small class="text-muted">{{comment.timestamp}}</small>
+                            </div>
+                            {% if current_user.id == comment.author or current_user.id == post.author %}
+                                    
+
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Delete
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                          <li><a href="/blog/delete_comment/{{ comment.id }}" class="btn btn-primary" method="POST" >Confirm Deletion</a></li>
+                                        </ul>
+                                      </div>
+                            {% endif %}
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+            </div>
+                
+        </div>
+
+        <p class="card-text">
+            {% if post.comments|length >0 %}
+            <a data-bs-toggle="collapse"  href="#comments-{{ post.id }}" role="button">
+                <small>View {{ post.comments|length }} Comments</small>
+            </a>
+
+            {% else %}
+                <small class="text-muted">No comments</small>
+            {% endif %}
+        </p>
+        <div class="card-footer text-muted">
+                
+            <a href="/blog/like/{{ post.id }}">
+                <span class="material-symbols-outlined">
+                thumb_up
+                </span>
+            </a>
+            {{ post.likes|length }}
+        </div>
+        <div class="card-footer text-muted">
+          {{ post.timestamp }}
+        </div>
+        
+    </div>
+    <br/>
+{% endfor %}
+{% else %}
+    
+{% endif %}
+
+
+{%  endblock %}

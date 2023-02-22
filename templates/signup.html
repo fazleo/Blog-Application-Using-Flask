@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Signup{% endblock %}
+
+{% block nav_list %}
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/"><span class="text-bg-dark">Home</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="\login"><span class="text-bg-dark">Login</span></a>
+    </li>
+    
+{% endblock %}
+
+{% block content %}
+
+<h1 style="text-align: center;margin-top: 1cm;">Sign Up page</h1>
+
+<form method="POST" class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username">
+
+    
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address">
+    <label for="password1">Password</label>
+    <input type="password" id="password1" name="password1" class="form-control" placeholder="Enter your password">
+    <label for="password">Verify Password</label>
+    <input type="password" id="password2" name="password2" class="form-control" placeholder="Enter again">
+    <br/>
+    <div class="submit_button" align = "center">
+        <button class="btn btn-primary" type="submit">SignUp</button>
+    </div>
+</form>
+
+{% endblock %}

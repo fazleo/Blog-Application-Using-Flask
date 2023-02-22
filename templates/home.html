@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{%  endblock %}
+
+{% block nav_list %}
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/"><span class="text-bg-dark">Home</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/login"><span class="text-bg-dark">Login</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-bg-dark" href="/signup">Signup</a>
+    </li>
+{% endblock %}
+
+{% block content %} 
+    
+
+    <div class="card text-center mt-5">
+        <div class="card-header">
+          Blogger
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Welcome to Blog</h3>
+          <p class="card-text">Publish your passions,your way.</p>
+          <p class="card-text">Tap Signup for creating your Blog.</p>
+          <a href="\signup" class="btn btn-primary">SignUp</a>
+        </div>
+        <div class="card-footer text-muted">
+          Designed By Faz
+        </div>
+      </div>
+   
+    
+{% endblock %}

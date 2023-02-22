@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Followers{% endblock %}
+
+
+
+{% block nav_list %}
+<li class="nav-item">
+    <a class="nav-link" href="/blog"><span class="text-bg-dark">Back</span></a>
+</li>
+{% endblock %}
+
+
+{% block content %}
+    
+    
+
+    {% if followers %}
+    <span><h1>Followers</h1></span>
+   
+    <ul class="list-group mt-5">
+        {% for user in followers %}
+            {% if not user in following %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <div><a href="/blog/user/{{  user.id  }}">{{ user.username }}</a></div>
+                    <form method="POST" action="/blog/follow/{{ user.id }}">
+                        <button  class="btn btn-outline-success" type="submit">Follow</button>
+                    </form>
+                </li>
+            {% else %}
+            <li class="list-group-item d-flex justify-content-between">
+                <div><a href="/blog/user/{{  user.id  }}">{{ user.username }}</a></div>
+                <form method="POST" action="/blog/unfollow/{{ user.id }}">
+                    <button  class="btn btn-outline-success" type="submit">unFollow</button>
+                </form>
+            </li>
+
+            {% endif %}
+        
+        {% endfor %}
+    </ul>
+    {% else %}
+    <span><h1>No Followers</h1></span>
+    {% endif %}
+
+
+{% endblock %}
